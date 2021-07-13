@@ -1,0 +1,44 @@
+Tela:
+    ScrollView:
+        MDList:
+            id: lista_tarefas
+
+    MDIconButton:
+        icon: "plus"
+        pos_hint: {"center_y": .05, "center_x": .5}
+        on_press:
+            app.adicionar_tarefa()
+            app.click = False
+
+<Tarefa>:
+    MDIconButton:
+        icon: "trash-can-outline"
+        pos_hint: {"center_x":.9, "center_y":.5}
+        on_release:
+            app.root.ids.lista_tarefas.remove_widget(root)
+
+
+<NovaTarefa>:
+    padding: "20dp"
+    orientation: "vertical"
+    size_hint: None, None
+    size: "280dp", "180dp"
+    pos_hint: {"center_x": .5, "center_y":.15}
+    MDIconButton:
+        icon: "close"
+        pos_hint: {"center_x":.5}
+        on_press:
+            app.root.remove_widget(root)
+            app.click = True
+    MDSeparator:
+        height: "2dp"
+    MDTextField:
+        id: nova_tarefa_texto
+        hint_text: "Tarefa"
+    MDIconButton:
+        icon: "plus"
+        pos_hint: {"center_x":.5}
+        on_release:
+            app.criar_tarefa(root.ids.nova_tarefa_texto.text)
+            app.click = True
+            app.root.remove_widget(root)
