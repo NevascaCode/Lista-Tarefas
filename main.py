@@ -27,11 +27,14 @@ class ListaTarefas(MDApp):
     def build(self):
         return Builder.load_file("lista_win.kv")
 
+    def salvar_lista(self):
+        ...
+
     def adicionar_tarefa(self):
         if self.click:
             self.root.add_widget(NovaTarefa())
 
     def criar_tarefa(self, text):
-        self.root.ids.lista_tarefas.add_widget(Tarefa(text=text))
+        self.root.ids.lista_tarefas.add_widget(Tarefa(text=f"     {text}"))
 
 ListaTarefas().run()

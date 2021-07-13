@@ -11,11 +11,17 @@ Tela:
             app.click = False
 
 <Tarefa>:
+    MDCheckbox:
+        pos_hint: {"center_x": .05, "center_y":.5}
+        size_hint: None, None
+        size: "30dp", "30dp"
+
     MDIconButton:
         icon: "trash-can-outline"
         pos_hint: {"center_x":.9, "center_y":.5}
         on_release:
             app.root.ids.lista_tarefas.remove_widget(root)
+
 
 
 <NovaTarefa>:
