@@ -6,23 +6,31 @@ Tela:
     MDIconButton:
         icon: "plus"
         pos_hint: {"center_y": .05, "center_x": .5}
+        theme_text_color: "Custom"
+        text_color: [0.2980392156862745, 0.6862745098039216, 0.3137254901960784, 1.0]
         on_press:
             app.adicionar_tarefa()
             app.click = False
 
 <Tarefa>:
     MDCheckbox:
-        pos_hint: {"center_x": .05, "center_y":.5}
+        id: check
+        pos_hint: {"center_x": .9, "center_y":.5}
         size_hint: None, None
+        unselected_color: "#1B5E20"
         size: "30dp", "30dp"
-
-    MDIconButton:
-        icon: "trash-can-outline"
-        pos_hint: {"center_x":.9, "center_y":.5}
-        on_release:
-            app.root.ids.lista_tarefas.remove_widget(root)
+        on_active:
+            root.verificar_check(root)
+            
 
 
+<Remover@MDIconButton>:
+    icon: "trash-can-outline"
+    theme_text_color: "Custom"
+    text_color: [0.9568627450980393, 0.2627450980392157, 0.21176470588235294, 1.0]
+    pos_hint: {"center_x":.80, "center_y":.5}
+    on_release:
+        app.root.ids.lista_tarefas.remove_widget(root.tarefa)
 
 <NovaTarefa>:
     padding: "20dp"
@@ -30,12 +38,16 @@ Tela:
     size_hint: None, None
     size: "280dp", "180dp"
     pos_hint: {"center_x": .5, "center_y":.15}
+
     MDIconButton:
         icon: "close"
         pos_hint: {"center_x":.5}
+        theme_text_color: "Custom"
+        text_color: [0.9568627450980393, 0.2627450980392157, 0.21176470588235294, 1.0]
         on_press:
             app.root.remove_widget(root)
             app.click = True
+
     MDSeparator:
         height: "2dp"
     MDTextField:
