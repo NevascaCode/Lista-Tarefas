@@ -13,6 +13,7 @@ Tela:
             app.click = False
 
 <Tarefa>:
+    font_secondary_text: 34
     MDCheckbox:
         id: check
         pos_hint: {"center_x": .9, "center_y":.5}
@@ -21,15 +22,15 @@ Tela:
         size: "30dp", "30dp"
         on_active:
             root.verificar_check(root)
-            
 
 
-<Remover@MDIconButton>:
+<Remover>:
     icon: "trash-can-outline"
     theme_text_color: "Custom"
     text_color: [0.9568627450980393, 0.2627450980392157, 0.21176470588235294, 1.0]
     pos_hint: {"center_x":.80, "center_y":.5}
     on_release:
+        root.remover_item_do_json(root.tarefa.text, root.tarefa.secondary_text, root.tarefa.ids.check.active)
         app.root.ids.lista_tarefas.remove_widget(root.tarefa)
 
 <NovaTarefa>:
