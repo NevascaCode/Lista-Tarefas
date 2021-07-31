@@ -10,6 +10,7 @@ import json
 import datetime
 Window.size = (360, 540)
 
+
 class Remover(MDIconButton):
     def __init__(self, tarefa, **kwargs):
         super().__init__(**kwargs)
@@ -78,13 +79,18 @@ class ListaTarefas(MDApp):
         self.click = True
 
     def on_start(self):
-        print("aaa")
-        with open("lista.json", "r") as arquivo:
-            lista = json.load(arquivo)
-            for item in lista["items"]:
-                for chave in item.keys():
-                    self.root.ids.lista_tarefas.add_widget(Tarefa(text=chave, secondary_text=item["data"], active_ini=item[chave]))
-                    break
+        try:
+            with open("lista.json", "r") as arquivo:
+                lista = json.load(arquivo)
+                for item in lista["items"]:
+                    for chave in item.keys():
+                        self.root.ids.lista_tarefas.add_widget(Tarefa(text=chave, secondary_text=item["data"], active_ini=item[chave]))
+                        print(self.root.ids.lista_tarefas)
+                        break
+        except FileNotFoundError:
+            with open("lista.json", "w") as arquivo:
+                lista = {"items":[]}
+                json.dump(lista, arquivo, indent=4)
 
 
     def build(self):
