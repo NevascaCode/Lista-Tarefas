@@ -30,28 +30,43 @@ class NovaTarefa(MDCard):
         super().__init__(**kwargs)
 
 class Tarefa(TwoLineListItem):
-    def __init__(self, active=False, **kwargs):
+    def __init__(self, active_ini=False, **kwargs):
         super().__init__(**kwargs)
+        self.active_ini = active_ini
         self.botao_remover = Remover(self)
         self.efeito_ativo = MDFloatLayout(md_bg_color=[0,0,0,.1], pos_hint={"center_y":.5})
-        self.ids.check.acive = active
+        if active_ini:
+            self.ids.check.active = active_ini
     def verificar_check(self, tarefa):
-        if not self.ids.check.active:
-            self.remove_widget(self.botao_remover)
-            self.remove_widget(self.efeito_ativo)
-        else:
+        if self.ids.check.active:
             self.add_widget(self.botao_remover)
             self.add_widget(self.efeito_ativo)
-        self.atualizar_item(self.text, self.ids.check.active)
+        else:
+            self.remove_widget(self.botao_remover)
+            self.remove_widget(self.efeito_ativo)
+        if self.active_ini:
+            self.active_ini = False
+        else:
+            self.atualizar_item(self.text, not self.ids.check.active)
 
-    def atualizar_item(self, texto_item, check_ativado=False):
+    def atualizar_item(self, texto_item, check_ativado):
         with open("lista.json", "r") as arquivo:
             lista = json.load(arquivo)
 
         with open("lista.json", "w") as arquivo:
-            l = lista["items"].index({texto_item: not check_ativado, "data":self.secondary_text})
-            lista["items"][l] = {texto_item: check_ativado, "data":self.secondary_text}
+            l = lista["items"].index({texto_item: check_ativado, "data":self.secondary_text})
+            lista["items"][l] = {texto_item: not check_ativado, "data":self.secondary_text}
             json.dump(lista, arquivo, indent=4)
+
+    def atualizar_item(self, texto_item, check_ativado):
+        with open("lista.json", "r") as arquivo:
+            lista = json.load(arquivo)
+
+        with open("lista.json", "w") as arquivo:
+            l = lista["items"].index({texto_item: check_ativado, "data":self.secondary_text})
+            lista["items"][l] = {texto_item: not check_ativado, "data":self.secondary_text}
+            json.dump(lista, arquivo, indent=4)
+
 
 class Tela(MDFloatLayout):
     def __init__(self, **kwargs):
@@ -68,8 +83,9 @@ class ListaTarefas(MDApp):
             lista = json.load(arquivo)
             for item in lista["items"]:
                 for chave in item.keys():
-                    self.root.ids.lista_tarefas.add_widget(Tarefa(text=chave, secondary_text=item["data"], active=item[chave]))
+                    self.root.ids.lista_tarefas.add_widget(Tarefa(text=chave, secondary_text=item["data"], active_ini=item[chave]))
                     break
+
 
     def build(self):
         self.theme_cls.primary_palette = "Green"

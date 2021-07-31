@@ -3,11 +3,10 @@ Tela:
         MDList:
             id: lista_tarefas
 
-    MDIconButton:
+    MDFloatingActionButton:
         icon: "plus"
         pos_hint: {"center_y": .05, "center_x": .5}
-        theme_text_color: "Custom"
-        text_color: [0.2980392156862745, 0.6862745098039216, 0.3137254901960784, 1.0]
+        md_bg_color: [0.2980392156862745, 0.6862745098039216, 0.3137254901960784, 1.0]
         on_press:
             app.adicionar_tarefa()
             app.click = False
